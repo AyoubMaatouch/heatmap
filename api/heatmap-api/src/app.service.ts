@@ -92,8 +92,7 @@ export class AppService {
             sra : true
           }
         }
-        )  
-        
+        )     
     return this.removeDuplicatesByProperty(sra, "sra");
   }
 }

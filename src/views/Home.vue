@@ -1,7 +1,8 @@
 <template>
-  <HelloWorld />
+  <Heatmap />
 </template>
 
 <script setup>
-  import HelloWorld from '@/components/HelloWorld.vue'
+  import Heatmap from '@/components/Heatmap.vue'
+  
 </script>
