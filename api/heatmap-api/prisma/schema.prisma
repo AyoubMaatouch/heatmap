@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model Myheat {
+  id           Int?
+  gene         String? @db.VarChar
+  ids          Int?
+  value        String? @db.VarChar
+  sra          String? @db.VarChar
+  abbreviation String? @db.VarChar
+  expriment    String? @db.VarChar
+  disease      String? @db.VarChar
+
+  @@ignore
+}
+
+model Myht {
+  gene         String? @db.VarChar
+  ids          Int?
+  sra          String? @db.VarChar
+  abbreviation String? @db.VarChar
+  expriment    String? @db.VarChar
+  disease      String? @db.VarChar
+  id           Int     @id @default(autoincrement())
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model mytb {
+  id    String? @db.VarChar
+  value String? @db.VarChar
+
+  @@ignore
+}
