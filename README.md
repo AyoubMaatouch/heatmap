@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # base
 
 ## Project setup
@@ -55,3 +56,7 @@ pnpm lint
 ### Customize configuration
 
 See [Configuration Reference](https://vitejs.dev/config/).
+=======
+# heatmap
+just anothr project
+>>>>>>> 4589344 (Initial commit)
