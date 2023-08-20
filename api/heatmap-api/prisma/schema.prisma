@@ -38,3 +38,13 @@ model mytb {
 
   @@ignore
 }
+
+model heatdata {
+  id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  gene         String?
+  ids          String?
+  sra          String?
+  abbreviation String?
+  experiment   String?
+  disease      String?
+}

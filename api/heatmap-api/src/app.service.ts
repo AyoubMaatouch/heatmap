@@ -27,7 +27,7 @@ export class AppService {
   
   async getGene() {
     
-    var gene = await prisma.myht.findMany(
+    var gene = await prisma.heatdata.findMany(
       {
         select: {
           gene : true
@@ -39,7 +39,7 @@ export class AppService {
 
   async getDisease() {
     
-    var disease = await prisma.myht.findMany(
+    var disease = await prisma.heatdata.findMany(
       {
         select: {
           disease : true
@@ -51,34 +51,34 @@ export class AppService {
 
   async getExpriment(disease : string) {
     
-    var expriment = disease ? await prisma.myht.findMany(
+    var expriment = disease ? await prisma.heatdata.findMany(
       {
         where:
         {
           disease: disease
         },
         select: {
-          expriment : true
+          experiment : true
         }
       }
     ) :
-    await prisma.myht.findMany(
+    await prisma.heatdata.findMany(
       {
         select: {
-          expriment : true
+          experiment : true
         }
       }
     )
-    return this.removeDuplicatesByProperty(expriment, "expriment");
+    return this.removeDuplicatesByProperty(expriment, "experiment");
   }
 
   async getSRA(exp : string) {
     
-    var sra = exp ? await prisma.myht.findMany(
+    var sra = exp ? await prisma.heatdata.findMany(
       {
         where:
         {
-          expriment: exp
+          experiment: exp
         }
         ,
         select: {
@@ -86,7 +86,7 @@ export class AppService {
         }
       }
       ) 
-      : await prisma.myht.findMany(
+      : await prisma.heatdata.findMany(
         {
           select: {
             sra : true
