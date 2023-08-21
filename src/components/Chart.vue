@@ -7,8 +7,8 @@
         <div ref="chart"></div> -->
 
         <!-- <template> -->
-  <div class="w-full flex justify-center">
-    <div class="border-red-800 flex " ref="chart"></div>
+  <div class=" mx-auto justify-center">
+    <div class="mx-auto" ref="chart"></div>
   </div>
 </template>
 

@@ -1,5 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { ConsoleLogger, Controller, Get, Param, Body, Req } from '@nestjs/common';
 import { AppService } from './app.service';
+import { request } from 'http';
+import { Request } from 'express';
+
 
 @Controller()
 export class AppController {
@@ -8,6 +11,11 @@ export class AppController {
   @Get("gene")
   async Gene() {
     return this.appService.getGene();
+  }
+  @Get("getCharts")
+  async getCharts(@Req() request: Request) {
+
+    return this.appService.getCharts(request.query["exp"], request.query["sra"], request.query["gene"]);
   }
   @Get("disease")
   async Disease() {

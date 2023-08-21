@@ -24,6 +24,21 @@ export class AppService {
     
     return valuesArray;
   }
+  async getCharts(exp , sra , gene? ) {
+    
+    var charts = await prisma.heatdata.findMany(
+      {
+        where:
+        {
+          experiment: exp,
+          sra: sra,
+          // gene: [ "hello", "world"]
+        }
+      }
+    )
+    console.log(charts)
+    return charts;
+  }
   
   async getGene() {
     
