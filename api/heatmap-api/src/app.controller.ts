@@ -14,7 +14,6 @@ export class AppController {
   }
   @Get("getCharts")
   async getCharts(@Req() request: Request) {
-
     return this.appService.getCharts(request.query["exp"], request.query["sra"], request.query["gene"]);
   }
   @Get("disease")

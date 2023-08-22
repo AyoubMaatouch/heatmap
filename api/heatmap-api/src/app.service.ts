@@ -21,23 +21,31 @@ export class AppService {
     }
 
     const valuesArray: string[] = uniqueArray.map(obj => obj[propName])
-    
+
     return valuesArray;
   }
   async getCharts(exp , sra , gene? ) {
     
+    if (gene) {
     var charts = await prisma.heatdata.findMany(
       {
         where:
         {
           experiment: exp,
           sra: sra,
-          // gene: [ "hello", "world"]
         }
       }
     )
-    console.log(charts)
-    return charts;
+    var validCharts = []
+    for (let chart of charts) {
+      if (gene.includes(chart.gene)) {
+        validCharts.push(chart)
+        }
+    }
+    console.log(validCharts)
+    return validCharts;
+  }
+  return null;
   }
   
   async getGene() {

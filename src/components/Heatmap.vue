@@ -69,7 +69,7 @@
         </div>
 
         <div class="h-20">
-          <v-btn class="w-50" slot="activator" @click="getCharts(gene, exp, sra)">
+          <v-btn class="w-50" slot="activator" v-on:click="getCharts(gene, exp, sra)" >
             Visualize
           </v-btn>
 
@@ -84,9 +84,8 @@
         <h1 class="mb-4 text-3xl  text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
           <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Heatmap</span>
         </h1>
-        <Chart />
-
-      </div>
+        <chart :key="reload" :data="data" />
+        </div>
 
     <div class="py-7" />
     <v-row class="d-flex align-center justify-center">
@@ -120,10 +119,12 @@ import axios from 'axios';
 export default {
   components: {
     Multiselect,
+    Chart
   },
   data() {
     return {
-      data: [],
+      data: ["hello world"],
+      reload: 0,
       // dialog: false,
       // value:,
       // gene: 'Value',
@@ -157,11 +158,11 @@ export default {
         })
         .then(response => {
           this.data = response.data;
-          console.log(response.data)
         })
         .catch(error => {
           console.error('Error fetching data:', error);
         });
+      this.reload += 1;
     },
   }
 
