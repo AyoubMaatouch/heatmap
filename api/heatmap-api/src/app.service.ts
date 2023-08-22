@@ -42,7 +42,6 @@ export class AppService {
         validCharts.push(chart)
         }
     }
-    console.log(validCharts)
     return validCharts;
   }
   return null;

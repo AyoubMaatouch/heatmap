@@ -114,7 +114,6 @@ const dialog = ref(false)
 import Multiselect from '@vueform/multiselect'
 import axios from 'axios';
 
-// var data
 
 export default {
   components: {
@@ -123,30 +122,12 @@ export default {
   },
   data() {
     return {
-      data: ["hello world"],
+      data: [],
       reload: 0,
-      // dialog: false,
-      // value:,
-      // gene: 'Value',
-      // disease: '',
-      // exp: '',
-      // sra: '',
-      // options: data,
-      //   options: [
-      //     'Batman',
-      //     'Robin',
-      //     'Joker',
-      //     'Alfred',
-      //     'Catwoman',
-      //     'Bane',
-      //   ]
+      
     }
   },
-  mounted() {
-      // this.gene = ;
-    },
   methods: {
-
     async getCharts(gene, exp, sra) {
       axios.get('http://localhost:3000/getCharts',
         {
