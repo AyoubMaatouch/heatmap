@@ -1,0 +1,21 @@
+
+> heatmap-v2@0.0.0 dev
+> vite
+
+
+  VITE v4.4.9  ready in 426 ms
+
+  ➜  Local:   http://localhost:3001/
+  ➜  Network: http://172.31.60.203:3001/
+12:00:53 AM [vite] hmr update /src/components/Heatmap.vue, /src/assets/tailwind.css
+12:00:54 AM [vite] hmr update /src/components/Heatmap.vue, /src/assets/tailwind.css
+
+> heatmap-v2@0.0.0 dev
+> vite
+
+
+  VITE v4.4.9  ready in 433 ms
+
+  ➜  Local:   http://localhost:3001/
+  ➜  Network: http://172.31.60.203:3001/
+2:40:49 AM [vite] hmr update /src/components/Heatmap.vue, /src/assets/tailwind.css

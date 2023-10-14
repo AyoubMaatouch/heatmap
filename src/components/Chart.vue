@@ -1,26 +1,22 @@
 
 <template>
     <div class="mx-auto justify-center">
-    
-
-        <h1> {{ptPer}} </h1>
+        
         <div class="w-4/6 mx-auto">
             <div class="bg-blue-200 h-3.5 dark:bg-blue-400">
 
-                <div class="bg-green-400 h-3.5 " :style="{width: ptPer + '%'}"></div>
+                <div class="bg-green-400 h-3.5 " :style="{width: ptPer+'%'}"></div>
             </div>
         </div>
         <div class="mx-auto" ref="chart"></div>
         <v-divider :thickness="10"></v-divider>
         
-        
-        <!-- print a green square with the text me next to it-->
         <div class="flex justify-begin">
             <strong>Abbreviation:</strong>    
         </div>
         <div class="flex justify-begin">
             <div class="square bg-green-400" style="; width: 1%; padding-bottom: 1%;"></div>
-            <div> PT </div> 
+            <div>PT</div> 
         </div>
         
         <v-divider :thickness="20" class="border-opacity-0"></v-divider>
@@ -30,7 +26,6 @@
         </div>
         <v-divider :thickness="20" class="border-opacity-0"></v-divider>
     
-        
     </div>
 </template>
 
@@ -40,7 +35,9 @@ var DATA = []
 var abbreviation = []
 var ptPer = 0;
 export default {
-
+    data(){
+        return { ptPer: 0}
+    },
     props: ['data'],
     setup(props) {
         DATA = props.data
@@ -54,9 +51,6 @@ export default {
     methods: {
         get_value() {
             abbreviation = [...new Array(DATA.map((item) => item.abbreviation))]
-            console.log(abbreviation)
-            console.log(abbreviation.length)
-
             if (abbreviation[0].length > 0) {
 
                 var total = abbreviation[0].length;
@@ -68,15 +62,13 @@ export default {
                      } else {
                      stCount++;
                     }
-    }
-    
-                const ptPercentage = Math.round((ptCount / total) * 100);
+    }           console.log("ptCount: ", ptCount, " stCount: ", stCount)
+                const ptPercentage = Math.round((stCount / total) * 100);
+                console.log("ptPercentage: ",ptPercentage)
                 this.ptPer = ptPercentage;
-
+            
                 return ptPercentage;
             }
-            
-
         },
         async renderChart() {
             console.log("prps data ", DATA)
@@ -97,9 +89,9 @@ export default {
                 "hover": true,
 
                 "encoding": {
-                    "x": { "field": "sra", "type": "ordinal", "title": "SRA" },
-                    "y": { "field": "gene", "type": "ordinal", "title": "Gene ID" },
-                    "color": { "field": "ids", "aggregate": "mean", "title": "Value" },
+                    "x": { "field": "SRA", "type": "ordinal", "title": "SRA" },
+                    "y": { "field": "gids", "type": "ordinal", "title": "Gene ID" },
+                    "color": { "field": "value", "aggregate": "mean", "title": "Value" },
 
                 },
                 "config": {

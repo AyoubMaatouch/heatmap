@@ -10,7 +10,7 @@
           <Multiselect v-model="gene" mode="tags" placeholder="Select Gene:" :close-on-select="false"
             :filter-results="false" :min-chars="0" :resolve-on-load="false" :infinite="true" :limit="10"
             :clear-on-search="true" :delay="0" :searchable="true" :options="async function (query) {
-              return await axios.get('http://localhost:3000/gene')
+              return await axios.get('https://heatmap.ma3touch.tech/api/gene')
                 .then(response => {
                   return response.data;
                 })
@@ -25,11 +25,11 @@
 
         </div>
 
-        <div class="grid grid-cols-3 h-20 gap-2 mx-auto">
+        <div class="w-5/6 grid grid-cols-3 h-20 gap-2 mx-auto">
           <div>
             <Multiselect v-model="disease" placeholder="Select Disease:" :resolve-on-load="true" :searchable="true"
               :options="async function (query) {
-                return await axios.get('http://localhost:3000/disease')
+                return await axios.get('https://heatmap.ma3touch.tech/api/disease')
                   .then(response => {
                     return response.data;
                   })
@@ -41,7 +41,7 @@
           <div>
             <Multiselect v-model="exp" placeholder="Select Expriment:" :filter-results="false" :min-chars="1"
               :resolve-on-load="true" :delay="0" :searchable="true" :options="async function (query) {
-                return await axios.get('http://localhost:3000/expriment')
+                return await axios.get('https://heatmap.ma3touch.tech/api/expriment')
                   .then(response => {
                     return response.data;
                   })
@@ -53,7 +53,7 @@
           <div>
             <Multiselect v-model="sra" placeholder="Select SRA:" :filter-results="false" :min-chars="1"
               :resolve-on-load="true" :delay="0" :searchable="true" :options="async function () {
-                return await axios.get('http://localhost:3000/sra')
+                return await axios.get('https://heatmap.ma3touch.tech/api/sra')
                   .then(response => {
                     return response.data;
 
@@ -97,11 +97,11 @@
     <img class="rounded-full w-40 h-40" src="https://bioinformatics.um6p.ma/Mentalome/assets/agc_logo_big.70826d43.png" alt="image description">
 
     </v-col>
-      <v-col cols="auto">
+      <!-- <v-col cols="auto">
       
     <img class="full w-40 h-40" src="https://bioinformatics.um6p.ma/Mentalome/assets/um6p_logo_big.b3440e5e.png" alt="image description">
 
-    </v-col>
+    </v-col> -->
     </v-row>
   </v-responsive>
 
@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     async getCharts(gene, exp, sra) {
-      axios.get('http://localhost:3000/getCharts',
+      axios.get('https://heatmap.ma3touch.tech/api/getCharts',
         {
           params: {
             gene: gene,
