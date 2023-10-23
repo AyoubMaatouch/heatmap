@@ -8,20 +8,20 @@
                 <div class="bg-green-400 h-3.5 " :style="{width: ptPer+'%'}"></div>
             </div>
         </div>
-        <div class="mx-auto" ref="chart"></div>
+        <div class="max-w-2/3 mx-auto" :key="DATA" ref="chart"></div>
         <v-divider :thickness="10"></v-divider>
         
         <div class="flex justify-begin">
             <strong>Abbreviation:</strong>    
         </div>
-        <div class="flex justify-begin">
-            <div class="square bg-green-400" style="; width: 1%; padding-bottom: 1%;"></div>
+        <div class="flex justify-begin" v-if="ptPer > 0">
+            <div class="square bg-green-400" style="; width: 1%; padding-bottom: 1%;" ></div>
             <div>PT</div> 
         </div>
         
         <v-divider :thickness="20" class="border-opacity-0"></v-divider>
-        <div class="flex justify-begin">
-            <div class="square dark:bg-blue-400" style="width: 1%; padding-bottom: 1%;"></div> 
+        <div class="flex justify-begin" v-if="ptPer < 99">
+            <div class="square dark:bg-blue-400" style="width: 1%; padding-bottom: 1%; " ></div> 
             <div class="mx-50">CT</div>
         </div>
         <v-divider :thickness="20" class="border-opacity-0"></v-divider>
@@ -29,18 +29,72 @@
     </div>
 </template>
 
+
+
+
+
 <script>
 import vegaEmbed from 'vega-embed';
-var DATA = []
+var DATA =[
+    {
+        "id": "0",
+        "gids": "RNU6-524P",
+        "value": "0",
+        "SRA": "SRR21029663",
+        "Abbreviation": "PT",
+        "Expriment": "PRJNA869106",
+        "Disease": "Autism"
+    },
+    {
+        "id": "0",
+        "gids": "TRBV25-1",
+        "value": "0",
+        "SRA": "SRR21029663",
+        "Abbreviation": "CT",
+        "Expriment": "PRJNA869106",
+        "Disease": "Autism"
+    },
+    {
+        "id": "0",
+        "gids": "TRBV26",
+        "value": "0",
+        "SRA": "SRR21029663",
+        "Abbreviation": "CT",
+        "Expriment": "PRJNA869106",
+        "Disease": "Autism"
+    },
+    {
+        "id": "0",
+        "gids": "TRBV26OR9-2",
+        "value": "0",
+        "SRA": "SRR21029663",
+        "Abbreviation": "CT",
+        "Expriment": "PRJNA869106",
+        "Disease": "Autism"
+    }
+]
+
 var abbreviation = []
 var ptPer = 0;
 export default {
-    data(){
-        return { ptPer: 0}
+    data()
+    {
+        return {
+        graphWidth: 400, // Default width
+        graphHeight: 300, 
+        ptPer: 0, 
+        DATA : []
+    }
     },
+
     props: ['data'],
     setup(props) {
-        DATA = props.data
+        
+        
+        if (props.data !== undefined && props.data.length > 0)
+        {
+            DATA = props.data
+        }
 
 
     },
@@ -50,34 +104,34 @@ export default {
     },
     methods: {
         get_value() {
-            abbreviation = [...new Array(DATA.map((item) => item.abbreviation))]
-            if (abbreviation[0].length > 0) {
+            const table = []
+            abbreviation = (DATA.map((item) => {table.push( item['Abbreviation'])}))
+            if (table.length > 0) {
 
-                var total = abbreviation[0].length;
+                var total = table.length;
                 var ptCount = 0;
                 var stCount = 0;
                 for (let i = 0; i < total; i++) {
-                   if (abbreviation[0][i] === 'PT') {
+                    
+                   if (table[i] === 'PT') {
                         ptCount++;
                      } else {
                      stCount++;
                     }
-    }           console.log("ptCount: ", ptCount, " stCount: ", stCount)
-                const ptPercentage = Math.round((stCount / total) * 100);
-                console.log("ptPercentage: ",ptPercentage)
+    }
+                const ptPercentage = Math.round((ptCount / total) * 100);
                 this.ptPer = ptPercentage;
-            
+                console.log("Pt percentage:", this.ptPer)
                 return ptPercentage;
             }
         },
         async renderChart() {
-            console.log("prps data ", DATA)
-            console.log("ptPer ", ptPer)
+            let width = document.getElementById('container')?.offsetWidth
             const spec = {
                 "title": "Visualization of Gene Expression data",
                 "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-                "width": 1200,
-                "height": 700,
+                "width": width * 0.9,
+                "height": window.innerHeight * 0.6,
                 "data": {
                     "values": DATA
                 },
@@ -104,5 +158,13 @@ export default {
             await vegaEmbed(el, spec);
         },
     },
+    created() {
+    this.renderChart();
+    window.addEventListener('resize', this.renderChart);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.renderChart);
+  },
+    
 };
 </script>

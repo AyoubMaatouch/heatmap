@@ -9,10 +9,10 @@
 
           <Multiselect v-model="gene" mode="tags" placeholder="Select Gene:" :close-on-select="false"
             :filter-results="false" :min-chars="0" :resolve-on-load="false" :infinite="true" :limit="10"
-            :clear-on-search="true" :delay="0" :searchable="true" :options="async function (query) {
+            :clear-on-search="true" :delay="0" :searchable="fasle" :options="async function (query) {
               return await axios.get('https://heatmap.ma3touch.tech/api/gene')
                 .then(response => {
-                  return response.data;
+                  return response.data.sort();
                 })
                 .catch(error => {
                   console.error('Error fetching data:', error);
@@ -72,14 +72,12 @@
           <v-btn class="w-50" slot="activator" v-on:click="getCharts(gene, exp, sra)" >
             Visualize
           </v-btn>
-
-          
         </div>
 
       </div>
       <v-divider :thickness="100" class="border-opacity-0"></v-divider>
 
-      <div class="container box shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] rounded mx-auto px-4">
+      <div id ="container" class="container box shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] rounded mx-auto px-4">
 
         <h1 class="mb-4 text-3xl  text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
           <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Heatmap</span>
@@ -88,6 +86,7 @@
           <div class="d-flex rounded-lg">
           </div>
         <chart :key="reload" :data="data" />
+
         </div>
 
     <div class="py-7" />
@@ -97,18 +96,49 @@
     <img class="rounded-full w-40 h-40" src="https://bioinformatics.um6p.ma/Mentalome/assets/agc_logo_big.70826d43.png" alt="image description">
 
     </v-col>
-      <!-- <v-col cols="auto">
+      <v-col cols="auto">
       
     <img class="full w-40 h-40" src="https://bioinformatics.um6p.ma/Mentalome/assets/um6p_logo_big.b3440e5e.png" alt="image description">
 
-    </v-col> -->
+    </v-col>
     </v-row>
-  </v-responsive>
-
-  
+  </v-responsive>  
 </template>
 
 <script setup>
+import Multiselect from '@vueform/multiselect'
+import { ref } from 'vue';
+import axios from 'axios';
+import Chart from './Chart.vue';
+
+const gene = ref([]);
+const exp = ref('');
+const sra = ref('');
+const data = ref([]);
+const reload = ref(0);
+
+const getCharts = async () => {
+  try {
+    const response = await axios.get('https://heatmap.ma3touch.tech/api/getCharts', {
+      params: {
+        gene: gene.value,
+        exp: exp.value,
+        sra: sra.value,
+      },
+    });
+    data.value = response.data;
+    reload.value += 1;
+    console.log('here: ', data.value);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+</script>
+<style src="@vueform/multiselect/themes/default.css">
+</style>
+
+
+<!-- <script setup>
 import { ref } from 'vue'
 import Chart from './Chart.vue'
 const dialog = ref(false)
@@ -149,12 +179,10 @@ export default {
           console.error('Error fetching data:', error);
         });
       this.reload += 1;
-    },
+      console.log("here: ",this.reload)
+    }
   }
+};
 
-}
 
-
-</script>
-<style src="@vueform/multiselect/themes/default.css">
-</style>
+</script> -->

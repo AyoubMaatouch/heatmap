@@ -17,7 +17,7 @@ export class AppController {
   @Get()
   async helloWorld() {
     console.log('hello');
-    return 'Hiloaaaw';
+    return 'Hello UM6P';
   }
 
   @Get('gene')

@@ -21,54 +21,66 @@ export class AppService {
     }
 
     const valuesArray: string[] = uniqueArray.map((obj) => obj[propName]);
-
     return valuesArray;
+
   }
-  async getCharts(exp, sra, gene?) {
+
+  clean_chart(charts,sra: string, exp: string)
+  {
+    const matchingObjects = [];
+    if (sra !== undefined && exp !== undefined)
+    {
+      for (let i = 0; i < charts.length; i++) {
+        if (charts[i].SRA === sra && charts[i].Expriment === exp) {
+          matchingObjects.push(charts[i]);
+        }
+      }
+
+      console.log("matching both", matchingObjects)
+      return matchingObjects
+    }
+    else if (sra === undefined)
+    {
+      for (let i = 0; i < charts.length; i++) {
+        if (charts[i].Expriment === exp) {
+          matchingObjects.push(charts[i]);
+        }
+      }
+      console.log("matching exp")
+      return matchingObjects
+      
+    }
+    else if (exp === undefined)
+    {
+      for (let i = 0; i < charts.length; i++) {
+        if (charts[i].SRA === sra) {
+          matchingObjects.push(charts[i]);
+        }
+      }
+      console.log("matching sra")
+      return matchingObjects
+    }
+    return charts
+  }
+  
+  async  getCharts(exp, sra, gene?) {
     if (gene) {
-      console.log('the values: ', exp, sra, gene);
+      // console.log("===========")
+      // console.log(exp, sra, gene)
+      // console.log("===========")
       const { data: charts, error } = await supabase
         .from('data')
         .select('*')
-        .eq('SRA', sra);
+        .in('gids', gene);
 
-      // .in('SRA', sra)
-      // .in('Expriment', exp)
-
-      console.log(charts);
-
-      // var charts = await prisma.heatdata.findMany(
-      //   {
-      //     where:
-      //     {
-      //       experiment: exp,
-      //       sra: sra,
-      //     }
-      //   }
-      // )
-      const validCharts = [];
-      for (const chart of charts) {
-        if (gene.includes(chart.gids)) {
-          validCharts.push(chart);
-        }
-      }
-      return validCharts;
+      return this.clean_chart(charts, sra, exp) ;
     }
-    return null;
+    return [];
   }
 
   async getGene() {
-    // var gene = await prisma.heatdata.findMany(
-    //   {
-    //     select: {
-    //       gene : true
-    //     }
-    //   }
-    // )
-
     const { data: data, error } = await supabase.from('data').select('gids');
 
-    // return data;
     return this.removeDuplicatesByProperty(data, 'gids');
   }
 
@@ -79,24 +91,6 @@ export class AppService {
   }
 
   async getExpriment(disease: string) {
-    // var expriment = disease ? await prisma.heatdata.findMany(
-    //   {
-    //     where:
-    //     {
-    //       disease: disease
-    //     },
-    //     select: {
-    //       experiment : true
-    //     }
-    //   }
-    // ) :
-    // await prisma.heatdata.findMany(
-    //   {
-    //     select: {
-    //       experiment : true
-    //     }
-    //   }
-    // )
 
     const { data: data, error } = await supabase
       .from('data')
@@ -106,28 +100,8 @@ export class AppService {
   }
 
   async getSRA(exp: string) {
-    // var sra = exp ? await prisma.heatdata.findMany(
-    //   {
-    //     where:
-    //     {
-    //       experiment: exp
-    //     }
-    //     ,
-    //     select: {
-    //       sra : true
-    //     }
-    //   }
-    //   )
-    //   : await prisma.heatdata.findMany(
-    //     {
-    //       select: {
-    //         sra : true
-    //       }
-    //     }
-    //     )
 
     const { data: data, error } = await supabase.from('data').select('SRA');
-
     const value = this.removeDuplicatesByProperty(data, 'SRA');
     return value;
   }
