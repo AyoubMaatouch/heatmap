@@ -6,10 +6,14 @@
           <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Mentalome</span>
         </h1>
         <div class="w-5/6 mx-auto h-20">
-
+          <!-- <Vueform>
+      <TextElement  placeholder="Select Gene:" />
+      </Vueform> -->
           <Multiselect v-model="gene" mode="tags" placeholder="Select Gene:" :close-on-select="false"
             :filter-results="false" :min-chars="0" :resolve-on-load="false" :infinite="true" :limit="10"
             :clear-on-search="true" :delay="0" :searchable="fasle" :options="async function (query) {
+              if (gene.length < 0)
+              {return;}
               return await axios.get('https://heatmap.ma3touch.tech/api/gene')
                 .then(response => {
                   return response.data.sort();
@@ -29,6 +33,8 @@
           <div>
             <Multiselect v-model="disease" placeholder="Select Disease:" :resolve-on-load="true" :searchable="true"
               :options="async function (query) {
+                // if (disease.length < 0)
+                //   {return;}
                 return await axios.get('https://heatmap.ma3touch.tech/api/disease')
                   .then(response => {
                     return response.data;
@@ -41,6 +47,8 @@
           <div>
             <Multiselect v-model="exp" placeholder="Select Expriment:" :filter-results="false" :min-chars="1"
               :resolve-on-load="true" :delay="0" :searchable="true" :options="async function (query) {
+                  if (exp.length < 0)
+                  {return;}
                 return await axios.get('https://heatmap.ma3touch.tech/api/expriment')
                   .then(response => {
                     return response.data;
@@ -53,6 +61,8 @@
           <div>
             <Multiselect v-model="sra" placeholder="Select SRA:" :filter-results="false" :min-chars="1"
               :resolve-on-load="true" :delay="0" :searchable="true" :options="async function () {
+                  if (sra.length < 0)
+                  {return;}
                 return await axios.get('https://heatmap.ma3touch.tech/api/sra')
                   .then(response => {
                     return response.data;
@@ -116,6 +126,15 @@ const exp = ref('');
 const sra = ref('');
 const data = ref([]);
 const reload = ref(0);
+
+const getGene = async () => {
+  try {
+    gene = await axios.get('https://heatmap.ma3touch.tech/api/gene');
+    return response.data.sort();
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
 
 const getCharts = async () => {
   try {

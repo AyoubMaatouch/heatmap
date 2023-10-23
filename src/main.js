@@ -6,7 +6,8 @@
 
 // Components
 import App from './App.vue'
-
+import Vueform from '@vueform/vueform/plugin'
+import vueformConfig from './../vueform.config'
 
 // Composables
 import { createApp } from 'vue'
@@ -20,6 +21,6 @@ import './assets/tailwind.css'
 const app = createApp(App)
 
 registerPlugins(app)
-
+app.use(Vueform, vueformConfig)
 app.mount('#app')
 

@@ -139,15 +139,32 @@ export default {
                     "type": "fit",
                     "contains": "padding"
                 },
-                "mark": "rect",
+                 "layer" : [
+                 {   "mark": "rect",
                 "hover": true,
 
                 "encoding": {
                     "x": { "field": "SRA", "type": "ordinal", "title": "SRA" },
-                    "y": { "field": "gids", "type": "ordinal", "title": "Gene ID" },
+                    "y": { "field": "gids", "type": "ordinal", "title": "Gene ID" , "sort": "descending"},
                     "color": { "field": "value", "aggregate": "mean", "title": "Value" },
+                    
+                    // "tooltip": {"signal": "{'Abbreviation': datum.Abbreviation, 'SRA': datum.SRA, 'Gene ID': datum.gids, 'Value': datum.value}"}
 
-                },
+                }
+            },
+           {
+            // "mark": "bar",
+            // "encoding": {
+                // "x": { "field": "SRA", "type": "ordinal", "title": "SRA" },
+                // "y": { "field": "Abbreviation", "type": "ordinal", "title": "Abbreviation" },
+                // "color": { "field": "Abbreviation", "type": "nominal", "title": "Abbreviation" },
+            // }
+
+           }
+
+                 ],
+           
+            
                 "config": {
                     "view": {
                         "stroke": "transparent"
